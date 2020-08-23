@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <ol>
+            
+            <todo-item
+            v-for="(item, index) in groceryList"
+            :todo="item"
+            :key="item.id"
+            :list="groceryList"
+            :index="index"
+        ></todo-item>
+        
+        </ol>
+        <input v-model="message" />
+        <button @click="alo" >go</button>
+    </div>
+    
+    <script>
+        Vue.component('todo-item', {
+            props: ['todo','list', 'index'],
+            template: '<li>{{ todo.text }} <button @click="del">x</button></li>',
+            methods: {
+                del : function() {
+                    this.list.splice(this.index, 1);
+                }
+            }
+        })
+
+
+
+        var app = new Vue({
+            el: '#app',
+            data: {
+                groceryList: [
+                    { id: 0, text: 'Овощи' },
+                    { id: 1, text: 'Сыр' },
+                    { id: 2, text: 'Что там ещё люди едят?' }
+                ],
+                counter: 3,
+                message: ''
+            },
+            methods: {
+                alo(){
+                    app.groceryList.push({id: this.counter++ ,text: this.message })
+                },
+                del(id) {
+                    let index = this.groceryList.findIndex(it => it.id == id);
+                    this.groceryList.splice(index, 1);
+                }
+               
+            }
+        });
+
+    </script>
+</body>
+</html>
